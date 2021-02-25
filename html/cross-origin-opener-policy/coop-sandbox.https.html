@@ -37,7 +37,7 @@ async_test(t => {
   t.add_cleanup(() => frame.remove());
   frame.sandbox = "allow-popups allow-scripts allow-popups-to-escape-sandbox";
   frame.srcdoc = `<script>
-window.open("resources/coop-coep.py?coop=same-origin&coep=&channel=${channel.name}");
+window.open("resources/coop-coep.py?coop=same-origin&coep=require-corp&channel=${channel.name}");
 <\/script>`;
   document.body.append(frame);
 }, `<iframe sandbox="allow-popups allow-scripts allow-popups-to-escape-sandbox"> ${document.title}`);
@@ -47,7 +47,7 @@ async_test(t => {
   const channel = new BroadcastChannel(token());
   frame.sandbox = "allow-scripts allow-same-origin";
   frame.name = `iframe-${channel.name}`;
-  frame.src = `resources/coop-coep.py?coop=same-origin&coep=&channel=${channel.name}`;
+  frame.src = `resources/coop-coep.py?coop=same-origin&coep=require-corp&channel=${channel.name}`;
   channel.onmessage = t.step_func( event => {
     const payload = event.data;
     assert_equals(payload.name, frame.name, "name");
